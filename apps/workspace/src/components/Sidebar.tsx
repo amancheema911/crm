@@ -15,10 +15,7 @@ export function Sidebar({ isOpen }: SidebarProps) {
   const pathname = usePathname();
   const { user, role } = useAuth();
   const workspaceName = useWorkspaceName();
-  const superadminUrl =
-    typeof process.env.NEXT_PUBLIC_SUPERADMIN_APP_URL === "string"
-      ? process.env.NEXT_PUBLIC_SUPERADMIN_APP_URL.replace(/\/$/, "")
-      : "http://localhost:3001";
+  const superadminUrl = process.env.NEXT_PUBLIC_SUPERADMIN_APP_URL;
 
   return (
     <aside

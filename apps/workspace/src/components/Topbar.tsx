@@ -17,10 +17,7 @@ export function Topbar({ toggleSidebar, isSidebarOpen }: TopbarProps) {
   const router = useRouter();
   const { user, role, signOut } = useAuth();
   const workspaceName = useWorkspaceName();
-  const superadminUrl =
-    typeof process.env.NEXT_PUBLIC_SUPERADMIN_APP_URL === "string"
-      ? process.env.NEXT_PUBLIC_SUPERADMIN_APP_URL.replace(/\/$/, "")
-      : "http://localhost:3001";
+  const superadminUrl = process.env.NEXT_PUBLIC_SUPERADMIN_APP_URL;
 
   const handleSignOut = async () => {
     await signOut();

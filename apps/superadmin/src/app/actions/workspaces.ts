@@ -155,8 +155,7 @@ export async function deleteWorkspace(workspaceId: number): Promise<void> {
   if (error) throw new Error(error.message);
 }
 
-const WORKSPACE_APP_URL =
-  process.env.NEXT_PUBLIC_WORKSPACE_APP_URL ?? "http://localhost:3002";
+const WORKSPACE_APP_URL = process.env.NEXT_PUBLIC_WORKSPACE_APP_URL;
 
 /** Get magic link to open workspace app as superadmin in the given workspace (superadmin only). */
 export async function getWorkspaceLoginLink(
