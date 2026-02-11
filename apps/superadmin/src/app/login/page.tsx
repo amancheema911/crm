@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
 import { useAuth } from "@crm/shared/hooks";
 import { mapSupabaseUserToUser, canAccessApp } from "@crm/shared/auth";
 
@@ -11,7 +11,7 @@ export default function SuperadminLoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     if (!email.trim() || !password) return;
@@ -36,7 +36,7 @@ export default function SuperadminLoginPage() {
         return;
       }
       // Full page redirect so the proxy sees session cookies on the next request
-      window.location.href = "/";
+      window.location.href = process.env.NEXT_PUBLIC_SUPERADMIN_APP_URL || "/";
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     } finally {

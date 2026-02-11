@@ -67,3 +67,37 @@ Import traces:
 [00:48:36.277] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
 [00:48:41.218] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
 [00:56:50.656] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:10:52.235] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:11:09.172] Server  LOG     ✓ Compiled in 46ms
+[01:11:12.509] Server  LOG     ✓ Compiled in 55ms
+[01:11:12.615] Browser ERROR   ./apps/superadmin/src/app/login/page.tsx:39:30
+Parsing ecmascript source code failed
+  37 |       }
+  38 |       // Full page redirect so the proxy sees session cookies on the next request
+> 39 |       window.location.href = ;
+     |                              ^
+  40 |     } catch (err) {
+  41 |       setError(err instanceof Error ? err.message : "Login failed");
+  42 |     } finally {
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./apps/superadmin/src/app/login/page.tsx [Client Component Browser]
+    ./apps/superadmin/src/app/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/superadmin/src/app/login/page.tsx [Client Component SSR]
+    ./apps/superadmin/src/app/login/page.tsx [Server Component]
+[01:11:16.437] Server  LOG     ✓ Compiled in 49ms
+[01:11:17.533] Server  LOG     ✓ Compiled in 44ms
+[01:11:26.657] Server  LOG     ✓ Compiled in 45ms
+[01:11:30.295] Server  LOG     ✓ Compiled in 46ms
+[01:11:33.905] Server  LOG     ✓ Compiled in 53ms
+[01:11:38.437] Server  LOG     ✓ Compiled in 46ms
+[01:11:52.634] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:11:55.804] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:12:19.460] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:12:23.540] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:13:07.137] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
