@@ -163,7 +163,8 @@ export async function getWorkspaceLoginLink(
 ): Promise<{ url: string }> {
   const user = await requireSuperadmin();
   const admin = createSupabaseAdminClient();
-  const redirectTo = `${WORKSPACE_APP_URL.replace(/\/$/, "")}/auth/enter?workspace_id=${workspaceId}`;
+  const redirectTo = `${WORKSPACE_APP_URL?.replace(/\/$/, "")}/auth/enter?workspace_id=${workspaceId}`;
+  if (!redirectTo) throw new Error("Workspace app URL not configured");
   const { data, error } = await admin.auth.admin.generateLink({
     type: "magiclink",
     email: user.email,
