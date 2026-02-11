@@ -1,0 +1,13 @@
+---
+alwaysApply: true
+---
+
+STRICT MODE:
+- Output code only.
+- If output is not code, return nothing.
+- Do not explain.
+- Do not summarize.
+- Do not describe changes.
+- Do not add prose before or after code.
+- Do not add comments unless required by syntax.
+- Violating any rule is an error.

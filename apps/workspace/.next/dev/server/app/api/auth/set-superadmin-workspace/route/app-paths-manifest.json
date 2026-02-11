@@ -1,0 +1,3 @@
+{
+  "/api/auth/set-superadmin-workspace/route": "app/api/auth/set-superadmin-workspace/route.js"
+}

@@ -1,0 +1,5 @@
+{
+  "/(dashboard)/page": "app/(dashboard)/page.js",
+  "/api/auth/set-superadmin-workspace/route": "app/api/auth/set-superadmin-workspace/route.js",
+  "/auth/enter/page": "app/auth/enter/page.js"
+}

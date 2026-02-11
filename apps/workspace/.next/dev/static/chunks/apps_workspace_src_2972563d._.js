@@ -1,0 +1,569 @@
+(globalThis.TURBOPACK || (globalThis.TURBOPACK = [])).push([typeof document === "object" ? document.currentScript : undefined,
+"[project]/apps/workspace/src/lib/constants.ts [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "LEAD_STATUSES",
+    ()=>LEAD_STATUSES,
+    "LEAD_STATUS_MAP",
+    ()=>LEAD_STATUS_MAP,
+    "LEAD_STATUS_OPTIONS",
+    ()=>LEAD_STATUS_OPTIONS,
+    "LEAD_STATUS_VALUES",
+    ()=>LEAD_STATUS_VALUES,
+    "getLeadStatusConfig",
+    ()=>getLeadStatusConfig,
+    "isValidLeadStatus",
+    ()=>isValidLeadStatus
+]);
+const LEAD_STATUSES = [
+    {
+        value: "new",
+        label: "New",
+        pillClass: "bg-blue-50 border-blue-200 text-blue-700"
+    },
+    {
+        value: "contacted",
+        label: "Contacted",
+        pillClass: "bg-purple-50 border-purple-200 text-purple-700"
+    },
+    {
+        value: "qualified",
+        label: "Qualified",
+        pillClass: "bg-amber-50 border-amber-200 text-amber-700"
+    },
+    {
+        value: "proposal",
+        label: "Proposal",
+        pillClass: "bg-slate-100 border-slate-200 text-slate-700"
+    },
+    {
+        value: "won",
+        label: "Won",
+        pillClass: "bg-green-50 border-green-200 text-green-700"
+    },
+    {
+        value: "lost",
+        label: "Lost",
+        pillClass: "bg-red-50 border-red-200 text-red-700"
+    }
+];
+const LEAD_STATUS_OPTIONS = LEAD_STATUSES.map(_c = ({ value, label })=>({
+        value,
+        label
+    }));
+_c1 = LEAD_STATUS_OPTIONS;
+const LEAD_STATUS_VALUES = LEAD_STATUSES.map(_c2 = (s)=>s.value);
+_c3 = LEAD_STATUS_VALUES;
+const isValidLeadStatus = (status)=>LEAD_STATUS_VALUES.includes(status);
+const getLeadStatusConfig = (status)=>LEAD_STATUSES.find((s)=>s.value === status);
+const LEAD_STATUS_MAP = Object.fromEntries(_c5 = LEAD_STATUSES.map(_c4 = (s)=>[
+        s.value,
+        s
+    ]));
+_c6 = LEAD_STATUS_MAP;
+var _c, _c1, _c2, _c3, _c4, _c5, _c6;
+__turbopack_context__.k.register(_c, "LEAD_STATUS_OPTIONS$LEAD_STATUSES.map");
+__turbopack_context__.k.register(_c1, "LEAD_STATUS_OPTIONS");
+__turbopack_context__.k.register(_c2, "LEAD_STATUS_VALUES$LEAD_STATUSES.map");
+__turbopack_context__.k.register(_c3, "LEAD_STATUS_VALUES");
+__turbopack_context__.k.register(_c4, "LEAD_STATUS_MAP$Object.fromEntries$LEAD_STATUSES.map");
+__turbopack_context__.k.register(_c5, "LEAD_STATUS_MAP$Object.fromEntries");
+__turbopack_context__.k.register(_c6, "LEAD_STATUS_MAP");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+"[project]/apps/workspace/src/app/(dashboard)/page.tsx [app-client] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>WorkspaceHome
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/app-dir/link.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$shared$2f$src$2f$hooks$2f$index$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/apps/shared/src/hooks/index.ts [app-client] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$shared$2f$src$2f$hooks$2f$useAuth$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/apps/shared/src/hooks/useAuth.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$workspace$2f$src$2f$lib$2f$constants$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/apps/workspace/src/lib/constants.ts [app-client] (ecmascript)");
+;
+var _s = __turbopack_context__.k.signature();
+"use client";
+;
+;
+;
+;
+function WorkspaceHome() {
+    _s();
+    const { client, workspace_id, user, loading: authLoading } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$shared$2f$src$2f$hooks$2f$useAuth$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAuth"])();
+    const [counts, setCounts] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({});
+    const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
+    const [selectedStatus, setSelectedStatus] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [leads, setLeads] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    const [leadsLoading, setLeadsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [updatingStatusId, setUpdatingStatusId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "WorkspaceHome.useEffect": ()=>{
+            if (!client || workspace_id == null) {
+                if (!authLoading) setLoading(false);
+                return;
+            }
+            setLoading(true);
+            client.from("leads").select("status").eq("workspace_id", workspace_id).eq("disabled", false).limit(10000).then({
+                "WorkspaceHome.useEffect": ({ data, error })=>{
+                    if (error) {
+                        setCounts({});
+                        setLoading(false);
+                        return;
+                    }
+                    const next = {};
+                    __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$workspace$2f$src$2f$lib$2f$constants$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LEAD_STATUSES"].forEach({
+                        "WorkspaceHome.useEffect": (s)=>{
+                            next[s.value] = 0;
+                        }
+                    }["WorkspaceHome.useEffect"]);
+                    (data ?? []).forEach({
+                        "WorkspaceHome.useEffect": (row)=>{
+                            const s = row.status?.toLowerCase() ?? "new";
+                            next[s] = (next[s] ?? 0) + 1;
+                        }
+                    }["WorkspaceHome.useEffect"]);
+                    setCounts(next);
+                    setLoading(false);
+                }
+            }["WorkspaceHome.useEffect"]);
+        }
+    }["WorkspaceHome.useEffect"], [
+        client,
+        workspace_id,
+        authLoading
+    ]);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "WorkspaceHome.useEffect": ()=>{
+            if (!selectedStatus || !client || workspace_id == null) return;
+            const fetchLeads = {
+                "WorkspaceHome.useEffect.fetchLeads": async ()=>{
+                    setLeadsLoading(true);
+                    const { data, error } = await client.from("leads").select("*").eq("workspace_id", workspace_id).eq("disabled", false).eq("status", selectedStatus).order("created_at", {
+                        ascending: false
+                    }).limit(100);
+                    if (!error && data) {
+                        setLeads(data);
+                    } else {
+                        setLeads([]);
+                    }
+                    setLeadsLoading(false);
+                }
+            }["WorkspaceHome.useEffect.fetchLeads"];
+            fetchLeads();
+        }
+    }["WorkspaceHome.useEffect"], [
+        selectedStatus,
+        client,
+        workspace_id
+    ]);
+    const handleStatusClick = (status)=>{
+        setSelectedStatus(selectedStatus === status ? null : status);
+    };
+    const handleStatusChange = async (leadId, newStatus)=>{
+        if (!client || workspace_id == null) return;
+        const lead = leads.find((l)=>l.id === leadId);
+        if (!lead) return;
+        setUpdatingStatusId(leadId);
+        const { error: updateError } = await client.from("leads").update({
+            status: newStatus
+        }).eq("id", leadId).eq("workspace_id", workspace_id);
+        if (!updateError) {
+            setLeads((prev)=>prev.map((l)=>l.id === leadId ? {
+                        ...l,
+                        status: newStatus
+                    } : l));
+            const description = lead.status !== newStatus ? `Status changed from ${lead.status} to ${newStatus}` : `Status updated to ${newStatus}`;
+            await client.from("lead_activities").insert({
+                workspace_id,
+                lead_id: leadId,
+                type: "updated",
+                description,
+                metadata: {
+                    status: newStatus
+                },
+                created_by: user?.id ?? null
+            });
+        }
+        setUpdatingStatusId(null);
+    };
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+        className: "p-0 space-y-6",
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "flex flex-wrap items-center justify-between gap-3",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                        className: "text-2xl font-bold text-slate-900",
+                        children: "Workspace"
+                    }, void 0, false, {
+                        fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                        lineNumber: 110,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                        href: "/leads",
+                        className: "inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium border border-slate-300 bg-white hover:bg-slate-50 text-slate-700",
+                        children: "Leads"
+                    }, void 0, false, {
+                        fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                        lineNumber: 111,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                lineNumber: 109,
+                columnNumber: 7
+            }, this),
+            loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                className: "text-slate-500",
+                children: "Loading…"
+            }, void 0, false, {
+                fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                lineNumber: 120,
+                columnNumber: 9
+            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4",
+                children: __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$workspace$2f$src$2f$lib$2f$constants$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LEAD_STATUSES"].map((status)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        onClick: ()=>handleStatusClick(status.value),
+                        className: `rounded-xl border p-4 shadow-sm flex flex-col gap-3 cursor-pointer transition-all ${selectedStatus === status.value ? "border-indigo-500 bg-indigo-50 ring-2 ring-indigo-200" : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-md"}`,
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex items-center justify-between gap-2",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "text-sm font-medium text-slate-600",
+                                        children: status.label
+                                    }, void 0, false, {
+                                        fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                        lineNumber: 134,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: `inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium ${status.pillClass}`,
+                                        children: status.label
+                                    }, void 0, false, {
+                                        fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                        lineNumber: 137,
+                                        columnNumber: 17
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                lineNumber: 133,
+                                columnNumber: 15
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-2xl font-bold text-slate-900",
+                                children: counts[status.value] ?? 0
+                            }, void 0, false, {
+                                fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                lineNumber: 143,
+                                columnNumber: 15
+                            }, this)
+                        ]
+                    }, status.value, true, {
+                        fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                        lineNumber: 124,
+                        columnNumber: 13
+                    }, this))
+            }, void 0, false, {
+                fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                lineNumber: 122,
+                columnNumber: 9
+            }, this),
+            selectedStatus && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "space-y-4",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex items-center justify-between",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                                className: "text-lg font-semibold text-slate-800",
+                                children: [
+                                    __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$workspace$2f$src$2f$lib$2f$constants$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LEAD_STATUSES"].find((s)=>s.value === selectedStatus)?.label,
+                                    " Leads"
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                lineNumber: 154,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>setSelectedStatus(null),
+                                className: "text-sm text-slate-600 hover:text-slate-900",
+                                children: "✕ Close"
+                            }, void 0, false, {
+                                fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                lineNumber: 157,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                        lineNumber: 153,
+                        columnNumber: 11
+                    }, this),
+                    leadsLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-slate-500",
+                        children: "Loading leads…"
+                    }, void 0, false, {
+                        fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                        lineNumber: 166,
+                        columnNumber: 13
+                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "overflow-x-auto rounded-lg border border-gray-200",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("table", {
+                            className: "min-w-full divide-y divide-gray-200",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("thead", {
+                                    className: "bg-gray-50",
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                className: "px-3 py-2 text-left text-xs font-medium text-gray-700",
+                                                children: "Name"
+                                            }, void 0, false, {
+                                                fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                                lineNumber: 172,
+                                                columnNumber: 21
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                className: "px-3 py-2 text-left text-xs font-medium text-gray-700",
+                                                children: "Email"
+                                            }, void 0, false, {
+                                                fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                                lineNumber: 175,
+                                                columnNumber: 21
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                className: "px-3 py-2 text-left text-xs font-medium text-gray-700",
+                                                children: "Phone"
+                                            }, void 0, false, {
+                                                fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                                lineNumber: 178,
+                                                columnNumber: 21
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                className: "px-3 py-2 text-left text-xs font-medium text-gray-700",
+                                                children: "Company"
+                                            }, void 0, false, {
+                                                fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                                lineNumber: 181,
+                                                columnNumber: 21
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                className: "px-3 py-2 text-left text-xs font-medium text-gray-700",
+                                                children: "Channel"
+                                            }, void 0, false, {
+                                                fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                                lineNumber: 184,
+                                                columnNumber: 21
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                className: "px-3 py-2 text-left text-xs font-medium text-gray-700",
+                                                children: "Status"
+                                            }, void 0, false, {
+                                                fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                                lineNumber: 187,
+                                                columnNumber: 21
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                className: "px-3 py-2 text-left text-xs font-medium text-gray-700",
+                                                children: "Owner"
+                                            }, void 0, false, {
+                                                fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                                lineNumber: 190,
+                                                columnNumber: 21
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
+                                                className: "px-3 py-2 text-right text-xs font-medium text-gray-700",
+                                                children: "Actions"
+                                            }, void 0, false, {
+                                                fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                                lineNumber: 193,
+                                                columnNumber: 21
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                        lineNumber: 171,
+                                        columnNumber: 19
+                                    }, this)
+                                }, void 0, false, {
+                                    fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                    lineNumber: 170,
+                                    columnNumber: 17
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
+                                    className: "bg-white divide-y divide-gray-200",
+                                    children: leads.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                            colSpan: 8,
+                                            className: "px-3 py-6 text-center text-gray-500 text-sm",
+                                            children: "No leads found."
+                                        }, void 0, false, {
+                                            fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                            lineNumber: 201,
+                                            columnNumber: 23
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                        lineNumber: 200,
+                                        columnNumber: 21
+                                    }, this) : leads.map((lead)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                    className: "px-3 py-2 text-sm font-medium",
+                                                    children: lead.name
+                                                }, void 0, false, {
+                                                    fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                                    lineNumber: 211,
+                                                    columnNumber: 25
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                    className: "px-3 py-2 text-sm",
+                                                    children: lead.email
+                                                }, void 0, false, {
+                                                    fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                                    lineNumber: 214,
+                                                    columnNumber: 25
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                    className: "px-3 py-2 text-sm",
+                                                    children: lead.phone
+                                                }, void 0, false, {
+                                                    fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                                    lineNumber: 215,
+                                                    columnNumber: 25
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                    className: "px-3 py-2 text-sm",
+                                                    children: lead.company ?? "—"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                                    lineNumber: 216,
+                                                    columnNumber: 25
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                    className: "px-3 py-2 text-sm capitalize",
+                                                    children: lead.channel ?? "—"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                                    lineNumber: 219,
+                                                    columnNumber: 25
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                    className: "px-3 py-2 text-sm",
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
+                                                        value: lead.status,
+                                                        onChange: (e)=>handleStatusChange(lead.id, e.target.value),
+                                                        disabled: updatingStatusId === lead.id,
+                                                        className: "capitalize rounded border border-slate-300 px-2 py-1 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 disabled:opacity-50 cursor-pointer",
+                                                        children: __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$workspace$2f$src$2f$lib$2f$constants$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LEAD_STATUS_OPTIONS"].map((opt)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
+                                                                value: opt.value,
+                                                                children: opt.label
+                                                            }, opt.value, false, {
+                                                                fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                                                lineNumber: 232,
+                                                                columnNumber: 31
+                                                            }, this))
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                                        lineNumber: 223,
+                                                        columnNumber: 27
+                                                    }, this)
+                                                }, void 0, false, {
+                                                    fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                                    lineNumber: 222,
+                                                    columnNumber: 25
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                    className: "px-3 py-2 text-sm",
+                                                    children: lead.owner ?? "—"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                                    lineNumber: 238,
+                                                    columnNumber: 25
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
+                                                    className: "px-3 py-2 text-right text-sm",
+                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                                                        href: `/leads/${lead.id}`,
+                                                        className: "text-indigo-600 hover:underline",
+                                                        children: "View"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                                        lineNumber: 242,
+                                                        columnNumber: 27
+                                                    }, this)
+                                                }, void 0, false, {
+                                                    fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                                    lineNumber: 241,
+                                                    columnNumber: 25
+                                                }, this)
+                                            ]
+                                        }, lead.id, true, {
+                                            fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                            lineNumber: 210,
+                                            columnNumber: 23
+                                        }, this))
+                                }, void 0, false, {
+                                    fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                    lineNumber: 198,
+                                    columnNumber: 17
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                            lineNumber: 169,
+                            columnNumber: 15
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                        lineNumber: 168,
+                        columnNumber: 13
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                lineNumber: 152,
+                columnNumber: 9
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                className: "text-slate-600 text-sm",
+                children: "Independent routing and layout for the workspace app."
+            }, void 0, false, {
+                fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                lineNumber: 259,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+        lineNumber: 108,
+        columnNumber: 5
+    }, this);
+}
+_s(WorkspaceHome, "a1knGANnEXc+gzqaLfYooYYLIC0=", false, function() {
+    return [
+        __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$shared$2f$src$2f$hooks$2f$useAuth$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAuth"]
+    ];
+});
+_c = WorkspaceHome;
+var _c;
+__turbopack_context__.k.register(_c, "WorkspaceHome");
+if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
+    __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
+}
+}),
+]);
+
+//# sourceMappingURL=apps_workspace_src_2972563d._.js.map
