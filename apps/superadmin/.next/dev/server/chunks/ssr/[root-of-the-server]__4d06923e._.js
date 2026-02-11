@@ -588,11 +588,13 @@ async function deleteWorkspace(workspaceId) {
     const { error } = await admin.from("workspaces").delete().eq("id", workspaceId);
     if (error) throw new Error(error.message);
 }
-const WORKSPACE_APP_URL = ("TURBOPACK compile-time value", "http://localhost:3003") ?? "http://localhost:3002";
+const WORKSPACE_APP_URL = ("TURBOPACK compile-time value", "http://localhost:3003");
 async function getWorkspaceLoginLink(workspaceId) {
     const user = await requireSuperadmin();
     const admin = (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$superadmin$2f$src$2f$lib$2f$supabase$2d$admin$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["createSupabaseAdminClient"])();
-    const redirectTo = `${WORKSPACE_APP_URL.replace(/\/$/, "")}/auth/enter?workspace_id=${workspaceId}`;
+    const redirectTo = `${WORKSPACE_APP_URL?.replace(/\/$/, "")}/auth/enter?workspace_id=${workspaceId}`;
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
     const { data, error } = await admin.auth.admin.generateLink({
         type: "magiclink",
         email: user.email,

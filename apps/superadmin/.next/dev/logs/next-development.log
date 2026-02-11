@@ -3,3 +3,67 @@
 [00:01:04.822] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
 [00:33:08.254] Server  LOG     ✓ Compiled in 73ms
 [00:33:10.829] Server  LOG     ✓ Compiled in 59ms
+[00:43:26.654] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:46:44.891] Browser ERROR   ./apps/superadmin/src/app/login/page.tsx:93:1
+Parsing ecmascript source code failed
+  91 |   );
+  92 | }
+> 93 |
+     | ^
+
+Expected '}', got '<eof>'
+
+Import traces:
+  Client Component Browser:
+    ./apps/superadmin/src/app/login/page.tsx [Client Component Browser]
+    ./apps/superadmin/src/app/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/superadmin/src/app/login/page.tsx [Client Component SSR]
+    ./apps/superadmin/src/app/login/page.tsx [Server Component]
+[00:46:44.891] Browser ERROR   ./apps/superadmin/src/app/login/page.tsx:44:3
+Parsing ecmascript source code failed
+  42 |   }
+  43 |
+> 44 |   return (
+     |   ^
+  45 |     <main className="min-h-screen flex items-center justify-center p-8">
+  46 |       <div className="w-full max-w-sm">
+  47 |         <h1 className="text-2xl font-bold mb-2 text-center">Superadmin login</h1>
+
+Expected a semicolon
+
+Import traces:
+  Client Component Browser:
+    ./apps/superadmin/src/app/login/page.tsx [Client Component Browser]
+    ./apps/superadmin/src/app/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/superadmin/src/app/login/page.tsx [Client Component SSR]
+    ./apps/superadmin/src/app/login/page.tsx [Server Component]
+[00:46:46.738] Server  LOG     ✓ Compiled in 46ms
+[00:48:06.783] Browser ERROR   ./apps/superadmin/src/app/login/page.tsx:14:9
+Parsing ecmascript source code failed
+  12 |   const [loading, setLoading] = useState(false);
+  13 |
+> 14 |   const function handleSubmit(e: React.FormEvent) {
+     |         ^^^^^^^^
+  15 |     e.preventDefault();
+  16 |     setError(null);
+  17 |     if (!email.trim() || !password) return;
+
+Expected ident
+
+Import traces:
+  Client Component Browser:
+    ./apps/superadmin/src/app/login/page.tsx [Client Component Browser]
+    ./apps/superadmin/src/app/login/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/superadmin/src/app/login/page.tsx [Client Component SSR]
+    ./apps/superadmin/src/app/login/page.tsx [Server Component]
+[00:48:08.169] Server  LOG     ✓ Compiled in 77ms
+[00:48:32.555] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:48:36.277] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:48:41.218] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:56:50.656] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold

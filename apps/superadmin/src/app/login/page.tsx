@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { useAuth } from "@crm/shared/hooks";
 import { mapSupabaseUserToUser, canAccessApp } from "@crm/shared/auth";
 
@@ -11,7 +11,7 @@ export default function SuperadminLoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
     if (!email.trim() || !password) return;
