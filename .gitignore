@@ -6,8 +6,8 @@ package-lock.json
 
 # Build
 .next
-apps/superadmin/.next
-apps/workspace/.next
+apps/superadmin/.next/**
+apps/workspace/.next/**
 .next/**
 out
 dist
