@@ -5,7 +5,7 @@ node_modules
 package-lock.json
 
 # Build
-.next
+.next/
 apps/superadmin/.next/**
 apps/workspace/.next/**
 .next/**
