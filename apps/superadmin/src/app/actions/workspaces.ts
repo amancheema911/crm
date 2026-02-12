@@ -155,7 +155,8 @@ export async function deleteWorkspace(workspaceId: number): Promise<void> {
   if (error) throw new Error(error.message);
 }
 
-const WORKSPACE_APP_URL = process.env.NEXT_PUBLIC_WORKSPACE_APP_URL;
+const WORKSPACE_APP_URL =
+  process.env.NEXT_PUBLIC_WORKSPACE_APP_URL ?? "http://localhost:3000";
 
 /** Get magic link to open workspace app as superadmin in the given workspace (superadmin only). */
 export async function getWorkspaceLoginLink(
@@ -163,8 +164,7 @@ export async function getWorkspaceLoginLink(
 ): Promise<{ url: string }> {
   const user = await requireSuperadmin();
   const admin = createSupabaseAdminClient();
-  const redirectTo = `${WORKSPACE_APP_URL?.replace(/\/$/, "")}/auth/enter?workspace_id=${workspaceId}`;
-  if (!redirectTo) throw new Error("Workspace app URL not configured");
+  const redirectTo = `${WORKSPACE_APP_URL.replace(/\/$/, "")}/auth/enter?workspace_id=${workspaceId}`;
   const { data, error } = await admin.auth.admin.generateLink({
     type: "magiclink",
     email: user.email,

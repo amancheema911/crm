@@ -1,28 +1,6 @@
 {
   "node": {
-    "00237b55da3a452e30a22afcf3f53247b831693c5f": {
-      "workers": {
-        "app/(dashboard)/page": {
-          "moduleId": "[project]/apps/superadmin/.next-internal/server/app/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/superadmin/src/app/actions/workspaces.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "listWorkspaces",
-          "filename": "apps/superadmin/src/app/actions/workspaces.ts"
-        },
-        "app/(dashboard)/workspaces/page": {
-          "moduleId": "[project]/apps/superadmin/.next-internal/server/app/(dashboard)/workspaces/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/superadmin/src/app/actions/workspaces.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "listWorkspaces",
-          "filename": "apps/superadmin/src/app/actions/workspaces.ts"
-        }
-      },
-      "layer": {
-        "app/(dashboard)/page": "rsc",
-        "app/(dashboard)/workspaces/page": "rsc"
-      },
-      "filename": "apps/superadmin/src/app/actions/workspaces.ts",
-      "exportedName": "listWorkspaces"
-    },
-    "005882ea55dfe9fa8b8447bbe24266854295403d83": {
+    "0008fbbba41b5bd762b19d6b4d41bedfefcd953ada": {
       "workers": {
         "app/(dashboard)/page": {
           "moduleId": "[project]/apps/superadmin/.next-internal/server/app/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/superadmin/src/app/actions/workspaces.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -44,7 +22,29 @@
       "filename": "apps/superadmin/src/app/actions/workspaces.ts",
       "exportedName": "getDashboardCounts"
     },
-    "405e5901a59a87bb21bf2c8f5fdf985fed164d0435": {
+    "00de1b815b50b62f4eb3855e0b309266376cac0fde": {
+      "workers": {
+        "app/(dashboard)/page": {
+          "moduleId": "[project]/apps/superadmin/.next-internal/server/app/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/superadmin/src/app/actions/workspaces.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "listWorkspaces",
+          "filename": "apps/superadmin/src/app/actions/workspaces.ts"
+        },
+        "app/(dashboard)/workspaces/page": {
+          "moduleId": "[project]/apps/superadmin/.next-internal/server/app/(dashboard)/workspaces/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/superadmin/src/app/actions/workspaces.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "listWorkspaces",
+          "filename": "apps/superadmin/src/app/actions/workspaces.ts"
+        }
+      },
+      "layer": {
+        "app/(dashboard)/page": "rsc",
+        "app/(dashboard)/workspaces/page": "rsc"
+      },
+      "filename": "apps/superadmin/src/app/actions/workspaces.ts",
+      "exportedName": "listWorkspaces"
+    },
+    "402ea64576300abf04aa78386c04ca31e71987f9f4": {
       "workers": {
         "app/(dashboard)/page": {
           "moduleId": "[project]/apps/superadmin/.next-internal/server/app/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/superadmin/src/app/actions/workspaces.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -66,7 +66,7 @@
       "filename": "apps/superadmin/src/app/actions/workspaces.ts",
       "exportedName": "getWorkspaceLoginLink"
     },
-    "406de05990fa881d7fa093859c728b4aee03943cb6": {
+    "409e44cd27773f7100bbba15579d1f3d75cb04de14": {
       "workers": {
         "app/(dashboard)/page": {
           "moduleId": "[project]/apps/superadmin/.next-internal/server/app/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/superadmin/src/app/actions/workspaces.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -88,7 +88,7 @@
       "filename": "apps/superadmin/src/app/actions/workspaces.ts",
       "exportedName": "deleteWorkspace"
     },
-    "40724e048fcd24b9503b760acdff1cc42a0653a4b5": {
+    "40ed24feff441c6ceb3b4305963fd6d66d21052d7a": {
       "workers": {
         "app/(dashboard)/page": {
           "moduleId": "[project]/apps/superadmin/.next-internal/server/app/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/superadmin/src/app/actions/workspaces.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -110,7 +110,7 @@
       "filename": "apps/superadmin/src/app/actions/workspaces.ts",
       "exportedName": "createWorkspace"
     },
-    "60384f9d9c6054fd2a32f2fab819e6c7626135e693": {
+    "60c365e6e99ebedeee599cf531b64033be24cb1fd7": {
       "workers": {
         "app/(dashboard)/page": {
           "moduleId": "[project]/apps/superadmin/.next-internal/server/app/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/superadmin/src/app/actions/workspaces.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -132,7 +132,7 @@
       "filename": "apps/superadmin/src/app/actions/workspaces.ts",
       "exportedName": "notifyWorkspaceCreated"
     },
-    "6077087eb31cf8dfd3ee7afa5bf105060ac5ffb5cd": {
+    "60db0f07fff1aa07e7d52d6a7a72ea09148be6b2b2": {
       "workers": {
         "app/(dashboard)/page": {
           "moduleId": "[project]/apps/superadmin/.next-internal/server/app/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/superadmin/src/app/actions/workspaces.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -154,7 +154,7 @@
       "filename": "apps/superadmin/src/app/actions/workspaces.ts",
       "exportedName": "updateWorkspaceDisabled"
     },
-    "70441733904e3aab3459f6a777955cfb92b70a6575": {
+    "70ba0ed93bb8f1ab62aa97290063fda693648518d1": {
       "workers": {
         "app/(dashboard)/page": {
           "moduleId": "[project]/apps/superadmin/.next-internal/server/app/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/superadmin/src/app/actions/workspaces.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
@@ -178,5 +178,5 @@
     }
   },
   "edge": {},
-  "encryptionKey": "XhUHbQIq5evqM7QdA7aUK0da0G0XrpDwDneHHYB1hCU="
+  "encryptionKey": "7mIJkNQTb6JzxYAfFhQIlG6hrVnpQ0Zew9WpdVUMcto="
 }

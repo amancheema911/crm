@@ -175,7 +175,7 @@ function Sidebar({ isOpen }) {
     const pathname = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["usePathname"])();
     const { user, role } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$shared$2f$src$2f$hooks$2f$useAuth$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useAuth"])();
     const workspaceName = (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$workspace$2f$src$2f$hooks$2f$useWorkspaceName$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useWorkspaceName"])();
-    const superadminUrl = typeof ("TURBOPACK compile-time value", "http://localhost:3002") === "string" ? ("TURBOPACK compile-time value", "http://localhost:3002").replace(/\/$/, "") : "http://localhost:3001";
+    const superadminUrl = typeof ("TURBOPACK compile-time value", "http://localhost:3000") === "string" ? ("TURBOPACK compile-time value", "http://localhost:3000").replace(/\/$/, "") : "http://localhost:3001";
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("aside", {
         className: `bg-white border-r border-gray-200 fixed top-0 left-0 z-40 h-screen w-64 transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"} shadow-lg`,
         children: [
@@ -487,7 +487,7 @@ function Topbar({ toggleSidebar, isSidebarOpen }) {
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
     const { user, role, signOut } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$shared$2f$src$2f$hooks$2f$useAuth$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useAuth"])();
     const workspaceName = (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$workspace$2f$src$2f$hooks$2f$useWorkspaceName$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useWorkspaceName"])();
-    const superadminUrl = typeof ("TURBOPACK compile-time value", "http://localhost:3002") === "string" ? ("TURBOPACK compile-time value", "http://localhost:3002").replace(/\/$/, "") : "http://localhost:3001";
+    const superadminUrl = typeof ("TURBOPACK compile-time value", "http://localhost:3000") === "string" ? ("TURBOPACK compile-time value", "http://localhost:3000").replace(/\/$/, "") : "http://localhost:3001";
     const handleSignOut = async ()=>{
         await signOut();
         router.push("/login");

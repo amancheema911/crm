@@ -446,7 +446,7 @@ function escapeHtml(s) {
 "[project]/apps/superadmin/src/app/actions/workspaces.ts [app-rsc] (ecmascript)", ((__turbopack_context__) => {
 "use strict";
 
-/* __next_internal_action_entry_do_not_use__ [{"00237b55da3a452e30a22afcf3f53247b831693c5f":"listWorkspaces","005882ea55dfe9fa8b8447bbe24266854295403d83":"getDashboardCounts","405e5901a59a87bb21bf2c8f5fdf985fed164d0435":"getWorkspaceLoginLink","406de05990fa881d7fa093859c728b4aee03943cb6":"deleteWorkspace","40724e048fcd24b9503b760acdff1cc42a0653a4b5":"createWorkspace","60384f9d9c6054fd2a32f2fab819e6c7626135e693":"notifyWorkspaceCreated","6077087eb31cf8dfd3ee7afa5bf105060ac5ffb5cd":"updateWorkspaceDisabled","70441733904e3aab3459f6a777955cfb92b70a6575":"createWorkspaceAdminUser"},"",""] */ __turbopack_context__.s([
+/* __next_internal_action_entry_do_not_use__ [{"0008fbbba41b5bd762b19d6b4d41bedfefcd953ada":"getDashboardCounts","00de1b815b50b62f4eb3855e0b309266376cac0fde":"listWorkspaces","402ea64576300abf04aa78386c04ca31e71987f9f4":"getWorkspaceLoginLink","409e44cd27773f7100bbba15579d1f3d75cb04de14":"deleteWorkspace","40ed24feff441c6ceb3b4305963fd6d66d21052d7a":"createWorkspace","60c365e6e99ebedeee599cf531b64033be24cb1fd7":"notifyWorkspaceCreated","60db0f07fff1aa07e7d52d6a7a72ea09148be6b2b2":"updateWorkspaceDisabled","70ba0ed93bb8f1ab62aa97290063fda693648518d1":"createWorkspaceAdminUser"},"",""] */ __turbopack_context__.s([
     "createWorkspace",
     ()=>createWorkspace,
     "createWorkspaceAdminUser",
@@ -588,13 +588,11 @@ async function deleteWorkspace(workspaceId) {
     const { error } = await admin.from("workspaces").delete().eq("id", workspaceId);
     if (error) throw new Error(error.message);
 }
-const WORKSPACE_APP_URL = ("TURBOPACK compile-time value", "http://localhost:3003");
+const WORKSPACE_APP_URL = ("TURBOPACK compile-time value", "http://localhost:3001") ?? "http://localhost:3000";
 async function getWorkspaceLoginLink(workspaceId) {
     const user = await requireSuperadmin();
     const admin = (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$superadmin$2f$src$2f$lib$2f$supabase$2d$admin$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["createSupabaseAdminClient"])();
-    const redirectTo = `${WORKSPACE_APP_URL?.replace(/\/$/, "")}/auth/enter?workspace_id=${workspaceId}`;
-    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
-    ;
+    const redirectTo = `${WORKSPACE_APP_URL.replace(/\/$/, "")}/auth/enter?workspace_id=${workspaceId}`;
     const { data, error } = await admin.auth.admin.generateLink({
         type: "magiclink",
         email: user.email,
@@ -620,14 +618,14 @@ async function getWorkspaceLoginLink(workspaceId) {
     deleteWorkspace,
     getWorkspaceLoginLink
 ]);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getDashboardCounts, "005882ea55dfe9fa8b8447bbe24266854295403d83", null);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(listWorkspaces, "00237b55da3a452e30a22afcf3f53247b831693c5f", null);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(createWorkspace, "40724e048fcd24b9503b760acdff1cc42a0653a4b5", null);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(createWorkspaceAdminUser, "70441733904e3aab3459f6a777955cfb92b70a6575", null);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(updateWorkspaceDisabled, "6077087eb31cf8dfd3ee7afa5bf105060ac5ffb5cd", null);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(notifyWorkspaceCreated, "60384f9d9c6054fd2a32f2fab819e6c7626135e693", null);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(deleteWorkspace, "406de05990fa881d7fa093859c728b4aee03943cb6", null);
-(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getWorkspaceLoginLink, "405e5901a59a87bb21bf2c8f5fdf985fed164d0435", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getDashboardCounts, "0008fbbba41b5bd762b19d6b4d41bedfefcd953ada", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(listWorkspaces, "00de1b815b50b62f4eb3855e0b309266376cac0fde", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(createWorkspace, "40ed24feff441c6ceb3b4305963fd6d66d21052d7a", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(createWorkspaceAdminUser, "70ba0ed93bb8f1ab62aa97290063fda693648518d1", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(updateWorkspaceDisabled, "60db0f07fff1aa07e7d52d6a7a72ea09148be6b2b2", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(notifyWorkspaceCreated, "60c365e6e99ebedeee599cf531b64033be24cb1fd7", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(deleteWorkspace, "409e44cd27773f7100bbba15579d1f3d75cb04de14", null);
+(0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$webpack$2f$loaders$2f$next$2d$flight$2d$loader$2f$server$2d$reference$2e$js__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["registerServerReference"])(getWorkspaceLoginLink, "402ea64576300abf04aa78386c04ca31e71987f9f4", null);
 }),
 "[project]/apps/superadmin/.next-internal/server/app/(dashboard)/page/actions.js { ACTIONS_MODULE0 => \"[project]/apps/superadmin/src/app/actions/workspaces.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript) <locals>", ((__turbopack_context__) => {
 "use strict";
@@ -647,21 +645,21 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$superadmin$2f$src$2f
 "use strict";
 
 __turbopack_context__.s([
-    "00237b55da3a452e30a22afcf3f53247b831693c5f",
-    ()=>__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$superadmin$2f$src$2f$app$2f$actions$2f$workspaces$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["listWorkspaces"],
-    "005882ea55dfe9fa8b8447bbe24266854295403d83",
+    "0008fbbba41b5bd762b19d6b4d41bedfefcd953ada",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$superadmin$2f$src$2f$app$2f$actions$2f$workspaces$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getDashboardCounts"],
-    "405e5901a59a87bb21bf2c8f5fdf985fed164d0435",
+    "00de1b815b50b62f4eb3855e0b309266376cac0fde",
+    ()=>__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$superadmin$2f$src$2f$app$2f$actions$2f$workspaces$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["listWorkspaces"],
+    "402ea64576300abf04aa78386c04ca31e71987f9f4",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$superadmin$2f$src$2f$app$2f$actions$2f$workspaces$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["getWorkspaceLoginLink"],
-    "406de05990fa881d7fa093859c728b4aee03943cb6",
+    "409e44cd27773f7100bbba15579d1f3d75cb04de14",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$superadmin$2f$src$2f$app$2f$actions$2f$workspaces$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["deleteWorkspace"],
-    "40724e048fcd24b9503b760acdff1cc42a0653a4b5",
+    "40ed24feff441c6ceb3b4305963fd6d66d21052d7a",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$superadmin$2f$src$2f$app$2f$actions$2f$workspaces$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["createWorkspace"],
-    "60384f9d9c6054fd2a32f2fab819e6c7626135e693",
+    "60c365e6e99ebedeee599cf531b64033be24cb1fd7",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$superadmin$2f$src$2f$app$2f$actions$2f$workspaces$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["notifyWorkspaceCreated"],
-    "6077087eb31cf8dfd3ee7afa5bf105060ac5ffb5cd",
+    "60db0f07fff1aa07e7d52d6a7a72ea09148be6b2b2",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$superadmin$2f$src$2f$app$2f$actions$2f$workspaces$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["updateWorkspaceDisabled"],
-    "70441733904e3aab3459f6a777955cfb92b70a6575",
+    "70ba0ed93bb8f1ab62aa97290063fda693648518d1",
     ()=>__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$superadmin$2f$src$2f$app$2f$actions$2f$workspaces$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$29$__["createWorkspaceAdminUser"]
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$superadmin$2f2e$next$2d$internal$2f$server$2f$app$2f28$dashboard$292f$page$2f$actions$2e$js__$7b$__ACTIONS_MODULE0__$3d3e$__$225b$project$5d2f$apps$2f$superadmin$2f$src$2f$app$2f$actions$2f$workspaces$2e$ts__$5b$app$2d$rsc$5d$__$28$ecmascript$2922$__$7d$__$5b$app$2d$rsc$5d$__$28$server__actions__loader$2c$__ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i('[project]/apps/superadmin/.next-internal/server/app/(dashboard)/page/actions.js { ACTIONS_MODULE0 => "[project]/apps/superadmin/src/app/actions/workspaces.ts [app-rsc] (ecmascript)" } [app-rsc] (server actions loader, ecmascript) <locals>');
