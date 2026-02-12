@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useAuth } from "@crm/shared/hooks";
-import { mapSupabaseUserToUser, canAccessApp } from "@crm/shared/auth";
+import { signIn } from "./actions";
 
 const DEACTIVATED_MESSAGE =
   "Your account is deactivated, please contact administrator.";
@@ -11,8 +11,6 @@ const DEACTIVATED_MESSAGE =
 function WorkspaceLoginForm() {
   const { client } = useAuth();
   const searchParams = useSearchParams();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -23,48 +21,36 @@ function WorkspaceLoginForm() {
       if (client) client.auth.signOut().catch(() => {});
     } else if (err === "superadmin_no_workspace") {
       setError("Open a workspace from the Superadmin app first.");
+    } else if (err === "invalid") {
+      setError("Email and password are required.");
+    } else if (err) {
+      setError(decodeURIComponent(err));
     }
   }, [searchParams, client]);
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(
+    e: Parameters<NonNullable<React.ComponentProps<"form">["onSubmit"]>>[0]
+  ) {
     e.preventDefault();
     setError(null);
-    if (!email.trim() || !password) return;
-    if (!client) {
-      setError("App misconfigured: missing Supabase client");
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const email = (formData.get("email") as string)?.trim?.();
+    const password = formData.get("password") as string;
+    if (!email || !password) {
+      setError("Email and password are required.");
       return;
     }
     setLoading(true);
     try {
-      const { data, error: signInError } = await client.auth.signInWithPassword({
-        email: email.trim(),
-        password,
-      });
-      if (signInError) {
-        setError(signInError.message);
-        return;
+      const result = await signIn(formData);
+      if (result.error) {
+        setError(result.error);
+      } else {
+        window.location.href = "/";
       }
-      const user = mapSupabaseUserToUser(data.user ?? null);
-      if (!user || !canAccessApp(user.role, "workspace")) {
-        await client.auth.signOut();
-        setError("You don't have access to this app. Workspace users only.");
-        return;
-      }
-      // Check if workspace is disabled (workspace admin owns workspace: user_id = auth user id)
-      const { data: workspace } = await client
-        .from("workspaces")
-        .select("disabled")
-        .eq("user_id", data.user!.id)
-        .single();
-      if (workspace?.disabled) {
-        await client.auth.signOut();
-        setError(DEACTIVATED_MESSAGE);
-        return;
-      }
-      // Full page redirect so the proxy sees session cookies on the next request
-      window.location.href = "/";
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Login failed");
+    } catch {
+      setError("Login failed");
     } finally {
       setLoading(false);
     }
@@ -81,9 +67,8 @@ function WorkspaceLoginForm() {
           <label className="block">
             <span className="text-sm text-gray-700">Email</span>
             <input
+              name="email"
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
               autoComplete="email"
               required
@@ -93,9 +78,8 @@ function WorkspaceLoginForm() {
           <label className="block">
             <span className="text-sm text-gray-700">Password</span>
             <input
+              name="password"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               autoComplete="current-password"
               required

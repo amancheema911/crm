@@ -2,20 +2,49 @@
 
 import Link from "next/link";
 import { useAuth } from "@crm/shared/hooks";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { Lead } from "@/lib/types";
 import { LEAD_STATUSES, LEAD_STATUS_OPTIONS } from "@/lib/constants";
 
 type StatusCounts = Record<string, number>;
 
+const PAGE_SIZE = 20;
+
 export default function WorkspaceHome() {
   const { client, workspace_id, user, loading: authLoading } = useAuth();
   const [counts, setCounts] = useState<StatusCounts>({});
   const [loading, setLoading] = useState(true);
-  const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
+  const [selectedStatus, setSelectedStatus] = useState<string | null>(
+    LEAD_STATUSES[0].value
+  );
   const [leads, setLeads] = useState<Lead[]>([]);
   const [leadsLoading, setLeadsLoading] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [offset, setOffset] = useState(0);
   const [updatingStatusId, setUpdatingStatusId] = useState<string | null>(null);
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const fetchLeadsRef = useRef<(reset: boolean) => Promise<void>>(() => Promise.resolve());
+
+  const fetchCounts = useCallback(async () => {
+    if (!client || workspace_id == null) return;
+    const { data, error } = await client
+      .from("leads")
+      .select("status")
+      .eq("workspace_id", workspace_id)
+      .eq("disabled", false)
+      .limit(10000);
+    if (error) return;
+    const next: StatusCounts = {};
+    LEAD_STATUSES.forEach((s) => {
+      next[s.value] = 0;
+    });
+    (data ?? []).forEach((row: { status: string }) => {
+      const s = row.status?.toLowerCase() ?? "new";
+      next[s] = (next[s] ?? 0) + 1;
+    });
+    setCounts(next);
+  }, [client, workspace_id]);
 
   useEffect(() => {
     if (!client || workspace_id == null) {
@@ -23,35 +52,21 @@ export default function WorkspaceHome() {
       return;
     }
     setLoading(true);
-    client
-      .from("leads")
-      .select("status")
-      .eq("workspace_id", workspace_id)
-      .eq("disabled", false)
-      .limit(10000)
-      .then(({ data, error }) => {
-        if (error) {
-          setCounts({});
-          setLoading(false);
-          return;
-        }
-        const next: StatusCounts = {};
-        LEAD_STATUSES.forEach((s) => {
-          next[s.value] = 0;
-        });
-        (data ?? []).forEach((row: { status: string }) => {
-          const s = row.status?.toLowerCase() ?? "new";
-          next[s] = (next[s] ?? 0) + 1;
-        });
-        setCounts(next);
-        setLoading(false);
-      });
-  }, [client, workspace_id, authLoading]);
+    fetchCounts().finally(() => setLoading(false));
+  }, [client, workspace_id, authLoading, fetchCounts]);
 
-  useEffect(() => {
-    if (!selectedStatus || !client || workspace_id == null) return;
-    const fetchLeads = async () => {
-      setLeadsLoading(true);
+  const fetchLeads = useCallback(
+    async (reset = false) => {
+      if (!selectedStatus || !client || workspace_id == null) return;
+      const pageOffset = reset ? 0 : offset;
+      if (reset) {
+        setLeadsLoading(true);
+        setLeads([]);
+        setOffset(0);
+        setHasMore(true);
+      } else {
+        setLoadingMore(true);
+      }
       const { data, error } = await client
         .from("leads")
         .select("*")
@@ -59,16 +74,40 @@ export default function WorkspaceHome() {
         .eq("disabled", false)
         .eq("status", selectedStatus)
         .order("created_at", { ascending: false })
-        .limit(100);
+        .range(pageOffset, pageOffset + PAGE_SIZE - 1);
       if (!error && data) {
-        setLeads(data as Lead[]);
-      } else {
+        setLeads((prev) => (reset ? (data as Lead[]) : [...prev, ...(data as Lead[])]));
+        setHasMore((data as Lead[]).length === PAGE_SIZE);
+        setOffset(pageOffset + (data as Lead[]).length);
+      } else if (reset) {
         setLeads([]);
       }
       setLeadsLoading(false);
-    };
-    fetchLeads();
+      setLoadingMore(false);
+    },
+    [selectedStatus, client, workspace_id, offset]
+  );
+  fetchLeadsRef.current = fetchLeads;
+
+  useEffect(() => {
+    if (!selectedStatus || !client || workspace_id == null) return;
+    setOffset(0);
+    setHasMore(true);
+    fetchLeadsRef.current(true);
   }, [selectedStatus, client, workspace_id]);
+
+  useEffect(() => {
+    if (!hasMore || leadsLoading || loadingMore || !loadMoreRef.current) return;
+    const el = loadMoreRef.current;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) fetchLeads(false);
+      },
+      { threshold: 0.1, rootMargin: "100px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [hasMore, leadsLoading, loadingMore, fetchLeads]);
 
   const handleStatusClick = (status: string) => {
     setSelectedStatus(selectedStatus === status ? null : status);
@@ -85,9 +124,8 @@ export default function WorkspaceHome() {
       .eq("id", leadId)
       .eq("workspace_id", workspace_id);
     if (!updateError) {
-      setLeads((prev) =>
-        prev.map((l) => (l.id === leadId ? { ...l, status: newStatus } : l))
-      );
+      await fetchCounts();
+      await fetchLeads(true);
       const description =
         lead.status !== newStatus
           ? `Status changed from ${lead.status} to ${newStatus}`
@@ -119,7 +157,7 @@ export default function WorkspaceHome() {
       {loading ? (
         <p className="text-slate-500">Loading…</p>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4">
           {LEAD_STATUSES.map((status) => (
             <div
               key={status.value}
@@ -131,9 +169,6 @@ export default function WorkspaceHome() {
               }`}
             >
               <div className="flex items-center justify-between gap-2">
-                <span className="text-sm font-medium text-slate-600">
-                  {status.label}
-                </span>
                 <span
                   className={`inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium ${status.pillClass}`}
                 >
@@ -251,6 +286,14 @@ export default function WorkspaceHome() {
                   )}
                 </tbody>
               </table>
+            </div>
+          )}
+          {selectedStatus && hasMore && !leadsLoading && (
+            <div
+              ref={loadMoreRef}
+              className="h-8 flex items-center justify-center py-4 text-slate-500 text-sm"
+            >
+              {loadingMore ? "Loading more…" : "\u00a0"}
             </div>
           )}
         </div>

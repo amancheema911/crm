@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@crm/shared/hooks";
 import { useWorkspaceName } from "@/hooks/useWorkspaceName";
+import { getSuperadminUrl } from "@/lib/env";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -15,10 +16,7 @@ export function Sidebar({ isOpen }: SidebarProps) {
   const pathname = usePathname();
   const { user, role } = useAuth();
   const workspaceName = useWorkspaceName();
-  const superadminUrl =
-    typeof process.env.NEXT_PUBLIC_SUPERADMIN_APP_URL === "string"
-      ? process.env.NEXT_PUBLIC_SUPERADMIN_APP_URL.replace(/\/$/, "")
-      : "http://localhost:3001";
+  const superadminUrl = getSuperadminUrl();
 
   return (
     <aside
@@ -39,15 +37,21 @@ export function Sidebar({ isOpen }: SidebarProps) {
               Viewing: {workspaceName}
             </p>
           )}
-          <a
-            href={superadminUrl}
-            className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-indigo-600 hover:bg-indigo-50"
-          >
-            <svg className="h-5 w-5 mr-3 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            Back to Superadmin
-          </a>
+          {superadminUrl ? (
+            <a
+              href={superadminUrl}
+              className="flex items-center px-3 py-2 text-sm font-medium rounded-md text-indigo-600 hover:bg-indigo-50"
+            >
+              <svg className="h-5 w-5 mr-3 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Back to Superadmin
+            </a>
+          ) : (
+            <p className="px-3 py-2 text-xs font-medium text-red-600 bg-red-50 rounded-md">
+              Missing NEXT_PUBLIC_SUPERADMIN_APP_URL in environment
+            </p>
+          )}
         </div>
       )}
 

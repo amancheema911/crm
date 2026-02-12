@@ -4,6 +4,7 @@ export const LEAD_STATUSES = [
   { value: "qualified", label: "Qualified", pillClass: "bg-amber-50 border-amber-200 text-amber-700" },
   { value: "proposal", label: "Proposal", pillClass: "bg-slate-100 border-slate-200 text-slate-700" },
   { value: "won", label: "Won", pillClass: "bg-green-50 border-green-200 text-green-700" },
+  { value: "unqualified", label: "Un-Qualified", pillClass: "bg-red-50 border-amber-200 text-amber-700" },
   { value: "lost", label: "Lost", pillClass: "bg-red-50 border-red-200 text-red-700" },
 ] as const;
 

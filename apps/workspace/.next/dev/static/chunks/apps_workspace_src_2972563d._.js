@@ -43,6 +43,11 @@ const LEAD_STATUSES = [
         pillClass: "bg-green-50 border-green-200 text-green-700"
     },
     {
+        value: "unqualified",
+        label: "Un-Qualified",
+        pillClass: "bg-red-50 border-amber-200 text-amber-700"
+    },
+    {
         value: "lost",
         label: "Lost",
         pillClass: "bg-red-50 border-red-200 text-red-700"
@@ -94,15 +99,46 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
+const PAGE_SIZE = 20;
 function WorkspaceHome() {
     _s();
     const { client, workspace_id, user, loading: authLoading } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$shared$2f$src$2f$hooks$2f$useAuth$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAuth"])();
     const [counts, setCounts] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({});
     const [loading, setLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
-    const [selectedStatus, setSelectedStatus] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [selectedStatus, setSelectedStatus] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(__TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$workspace$2f$src$2f$lib$2f$constants$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LEAD_STATUSES"][0].value);
     const [leads, setLeads] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [leadsLoading, setLeadsLoading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [loadingMore, setLoadingMore] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [hasMore, setHasMore] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(true);
+    const [offset, setOffset] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
     const [updatingStatusId, setUpdatingStatusId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const loadMoreRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])(null);
+    const fetchLeadsRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])({
+        "WorkspaceHome.useRef[fetchLeadsRef]": ()=>Promise.resolve()
+    }["WorkspaceHome.useRef[fetchLeadsRef]"]);
+    const fetchCounts = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "WorkspaceHome.useCallback[fetchCounts]": async ()=>{
+            if (!client || workspace_id == null) return;
+            const { data, error } = await client.from("leads").select("status").eq("workspace_id", workspace_id).eq("disabled", false).limit(10000);
+            if (error) return;
+            const next = {};
+            __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$workspace$2f$src$2f$lib$2f$constants$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LEAD_STATUSES"].forEach({
+                "WorkspaceHome.useCallback[fetchCounts]": (s)=>{
+                    next[s.value] = 0;
+                }
+            }["WorkspaceHome.useCallback[fetchCounts]"]);
+            (data ?? []).forEach({
+                "WorkspaceHome.useCallback[fetchCounts]": (row)=>{
+                    const s = row.status?.toLowerCase() ?? "new";
+                    next[s] = (next[s] ?? 0) + 1;
+                }
+            }["WorkspaceHome.useCallback[fetchCounts]"]);
+            setCounts(next);
+        }
+    }["WorkspaceHome.useCallback[fetchCounts]"], [
+        client,
+        workspace_id
+    ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "WorkspaceHome.useEffect": ()=>{
             if (!client || workspace_id == null) {
@@ -110,58 +146,87 @@ function WorkspaceHome() {
                 return;
             }
             setLoading(true);
-            client.from("leads").select("status").eq("workspace_id", workspace_id).eq("disabled", false).limit(10000).then({
-                "WorkspaceHome.useEffect": ({ data, error })=>{
-                    if (error) {
-                        setCounts({});
-                        setLoading(false);
-                        return;
-                    }
-                    const next = {};
-                    __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$workspace$2f$src$2f$lib$2f$constants$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LEAD_STATUSES"].forEach({
-                        "WorkspaceHome.useEffect": (s)=>{
-                            next[s.value] = 0;
-                        }
-                    }["WorkspaceHome.useEffect"]);
-                    (data ?? []).forEach({
-                        "WorkspaceHome.useEffect": (row)=>{
-                            const s = row.status?.toLowerCase() ?? "new";
-                            next[s] = (next[s] ?? 0) + 1;
-                        }
-                    }["WorkspaceHome.useEffect"]);
-                    setCounts(next);
-                    setLoading(false);
-                }
+            fetchCounts().finally({
+                "WorkspaceHome.useEffect": ()=>setLoading(false)
             }["WorkspaceHome.useEffect"]);
         }
     }["WorkspaceHome.useEffect"], [
         client,
         workspace_id,
-        authLoading
+        authLoading,
+        fetchCounts
     ]);
+    const fetchLeads = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "WorkspaceHome.useCallback[fetchLeads]": async (reset = false)=>{
+            if (!selectedStatus || !client || workspace_id == null) return;
+            const pageOffset = reset ? 0 : offset;
+            if (reset) {
+                setLeadsLoading(true);
+                setLeads([]);
+                setOffset(0);
+                setHasMore(true);
+            } else {
+                setLoadingMore(true);
+            }
+            const { data, error } = await client.from("leads").select("*").eq("workspace_id", workspace_id).eq("disabled", false).eq("status", selectedStatus).order("created_at", {
+                ascending: false
+            }).range(pageOffset, pageOffset + PAGE_SIZE - 1);
+            if (!error && data) {
+                setLeads({
+                    "WorkspaceHome.useCallback[fetchLeads]": (prev)=>reset ? data : [
+                            ...prev,
+                            ...data
+                        ]
+                }["WorkspaceHome.useCallback[fetchLeads]"]);
+                setHasMore(data.length === PAGE_SIZE);
+                setOffset(pageOffset + data.length);
+            } else if (reset) {
+                setLeads([]);
+            }
+            setLeadsLoading(false);
+            setLoadingMore(false);
+        }
+    }["WorkspaceHome.useCallback[fetchLeads]"], [
+        selectedStatus,
+        client,
+        workspace_id,
+        offset
+    ]);
+    fetchLeadsRef.current = fetchLeads;
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "WorkspaceHome.useEffect": ()=>{
             if (!selectedStatus || !client || workspace_id == null) return;
-            const fetchLeads = {
-                "WorkspaceHome.useEffect.fetchLeads": async ()=>{
-                    setLeadsLoading(true);
-                    const { data, error } = await client.from("leads").select("*").eq("workspace_id", workspace_id).eq("disabled", false).eq("status", selectedStatus).order("created_at", {
-                        ascending: false
-                    }).limit(100);
-                    if (!error && data) {
-                        setLeads(data);
-                    } else {
-                        setLeads([]);
-                    }
-                    setLeadsLoading(false);
-                }
-            }["WorkspaceHome.useEffect.fetchLeads"];
-            fetchLeads();
+            setOffset(0);
+            setHasMore(true);
+            fetchLeadsRef.current(true);
         }
     }["WorkspaceHome.useEffect"], [
         selectedStatus,
         client,
         workspace_id
+    ]);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "WorkspaceHome.useEffect": ()=>{
+            if (!hasMore || leadsLoading || loadingMore || !loadMoreRef.current) return;
+            const el = loadMoreRef.current;
+            const observer = new IntersectionObserver({
+                "WorkspaceHome.useEffect": (entries)=>{
+                    if (entries[0]?.isIntersecting) fetchLeads(false);
+                }
+            }["WorkspaceHome.useEffect"], {
+                threshold: 0.1,
+                rootMargin: "100px"
+            });
+            observer.observe(el);
+            return ({
+                "WorkspaceHome.useEffect": ()=>observer.disconnect()
+            })["WorkspaceHome.useEffect"];
+        }
+    }["WorkspaceHome.useEffect"], [
+        hasMore,
+        leadsLoading,
+        loadingMore,
+        fetchLeads
     ]);
     const handleStatusClick = (status)=>{
         setSelectedStatus(selectedStatus === status ? null : status);
@@ -175,10 +240,8 @@ function WorkspaceHome() {
             status: newStatus
         }).eq("id", leadId).eq("workspace_id", workspace_id);
         if (!updateError) {
-            setLeads((prev)=>prev.map((l)=>l.id === leadId ? {
-                        ...l,
-                        status: newStatus
-                    } : l));
+            await fetchCounts();
+            await fetchLeads(true);
             const description = lead.status !== newStatus ? `Status changed from ${lead.status} to ${newStatus}` : `Status updated to ${newStatus}`;
             await client.from("lead_activities").insert({
                 workspace_id,
@@ -204,7 +267,7 @@ function WorkspaceHome() {
                         children: "Workspace"
                     }, void 0, false, {
                         fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                        lineNumber: 110,
+                        lineNumber: 148,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -213,13 +276,13 @@ function WorkspaceHome() {
                         children: "Leads"
                     }, void 0, false, {
                         fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                        lineNumber: 111,
+                        lineNumber: 149,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                lineNumber: 109,
+                lineNumber: 147,
                 columnNumber: 7
             }, this),
             loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -227,37 +290,27 @@ function WorkspaceHome() {
                 children: "Loading…"
             }, void 0, false, {
                 fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                lineNumber: 120,
+                lineNumber: 158,
                 columnNumber: 9
             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4",
+                className: "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4",
                 children: __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$workspace$2f$src$2f$lib$2f$constants$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["LEAD_STATUSES"].map((status)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         onClick: ()=>handleStatusClick(status.value),
                         className: `rounded-xl border p-4 shadow-sm flex flex-col gap-3 cursor-pointer transition-all ${selectedStatus === status.value ? "border-indigo-500 bg-indigo-50 ring-2 ring-indigo-200" : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-md"}`,
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "flex items-center justify-between gap-2",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        className: "text-sm font-medium text-slate-600",
-                                        children: status.label
-                                    }, void 0, false, {
-                                        fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                        lineNumber: 134,
-                                        columnNumber: 17
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                        className: `inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium ${status.pillClass}`,
-                                        children: status.label
-                                    }, void 0, false, {
-                                        fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                        lineNumber: 137,
-                                        columnNumber: 17
-                                    }, this)
-                                ]
-                            }, void 0, true, {
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    className: `inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium ${status.pillClass}`,
+                                    children: status.label
+                                }, void 0, false, {
+                                    fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                                    lineNumber: 172,
+                                    columnNumber: 17
+                                }, this)
+                            }, void 0, false, {
                                 fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                lineNumber: 133,
+                                lineNumber: 171,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -265,18 +318,18 @@ function WorkspaceHome() {
                                 children: counts[status.value] ?? 0
                             }, void 0, false, {
                                 fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                lineNumber: 143,
+                                lineNumber: 178,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, status.value, true, {
                         fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                        lineNumber: 124,
+                        lineNumber: 162,
                         columnNumber: 13
                     }, this))
             }, void 0, false, {
                 fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                lineNumber: 122,
+                lineNumber: 160,
                 columnNumber: 9
             }, this),
             selectedStatus && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -293,7 +346,7 @@ function WorkspaceHome() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                lineNumber: 154,
+                                lineNumber: 189,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -302,13 +355,13 @@ function WorkspaceHome() {
                                 children: "✕ Close"
                             }, void 0, false, {
                                 fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                lineNumber: 157,
+                                lineNumber: 192,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                        lineNumber: 153,
+                        lineNumber: 188,
                         columnNumber: 11
                     }, this),
                     leadsLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -316,7 +369,7 @@ function WorkspaceHome() {
                         children: "Loading leads…"
                     }, void 0, false, {
                         fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                        lineNumber: 166,
+                        lineNumber: 201,
                         columnNumber: 13
                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "overflow-x-auto rounded-lg border border-gray-200",
@@ -332,7 +385,7 @@ function WorkspaceHome() {
                                                 children: "Name"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                                lineNumber: 172,
+                                                lineNumber: 207,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -340,7 +393,7 @@ function WorkspaceHome() {
                                                 children: "Email"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                                lineNumber: 175,
+                                                lineNumber: 210,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -348,7 +401,7 @@ function WorkspaceHome() {
                                                 children: "Phone"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                                lineNumber: 178,
+                                                lineNumber: 213,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -356,7 +409,7 @@ function WorkspaceHome() {
                                                 children: "Company"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                                lineNumber: 181,
+                                                lineNumber: 216,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -364,7 +417,7 @@ function WorkspaceHome() {
                                                 children: "Channel"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                                lineNumber: 184,
+                                                lineNumber: 219,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -372,7 +425,7 @@ function WorkspaceHome() {
                                                 children: "Status"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                                lineNumber: 187,
+                                                lineNumber: 222,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -380,7 +433,7 @@ function WorkspaceHome() {
                                                 children: "Owner"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                                lineNumber: 190,
+                                                lineNumber: 225,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -388,18 +441,18 @@ function WorkspaceHome() {
                                                 children: "Actions"
                                             }, void 0, false, {
                                                 fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                                lineNumber: 193,
+                                                lineNumber: 228,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                        lineNumber: 171,
+                                        lineNumber: 206,
                                         columnNumber: 19
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                    lineNumber: 170,
+                                    lineNumber: 205,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -411,12 +464,12 @@ function WorkspaceHome() {
                                             children: "No leads found."
                                         }, void 0, false, {
                                             fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                            lineNumber: 201,
+                                            lineNumber: 236,
                                             columnNumber: 23
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                        lineNumber: 200,
+                                        lineNumber: 235,
                                         columnNumber: 21
                                     }, this) : leads.map((lead)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                             children: [
@@ -425,7 +478,7 @@ function WorkspaceHome() {
                                                     children: lead.name
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                                    lineNumber: 211,
+                                                    lineNumber: 246,
                                                     columnNumber: 25
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -433,7 +486,7 @@ function WorkspaceHome() {
                                                     children: lead.email
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                                    lineNumber: 214,
+                                                    lineNumber: 249,
                                                     columnNumber: 25
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -441,7 +494,7 @@ function WorkspaceHome() {
                                                     children: lead.phone
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                                    lineNumber: 215,
+                                                    lineNumber: 250,
                                                     columnNumber: 25
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -449,7 +502,7 @@ function WorkspaceHome() {
                                                     children: lead.company ?? "—"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                                    lineNumber: 216,
+                                                    lineNumber: 251,
                                                     columnNumber: 25
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -457,7 +510,7 @@ function WorkspaceHome() {
                                                     children: lead.channel ?? "—"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                                    lineNumber: 219,
+                                                    lineNumber: 254,
                                                     columnNumber: 25
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -472,17 +525,17 @@ function WorkspaceHome() {
                                                                 children: opt.label
                                                             }, opt.value, false, {
                                                                 fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                                                lineNumber: 232,
+                                                                lineNumber: 267,
                                                                 columnNumber: 31
                                                             }, this))
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                                        lineNumber: 223,
+                                                        lineNumber: 258,
                                                         columnNumber: 27
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                                    lineNumber: 222,
+                                                    lineNumber: 257,
                                                     columnNumber: 25
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -490,7 +543,7 @@ function WorkspaceHome() {
                                                     children: lead.owner ?? "—"
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                                    lineNumber: 238,
+                                                    lineNumber: 273,
                                                     columnNumber: 25
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -501,40 +554,49 @@ function WorkspaceHome() {
                                                         children: "View"
                                                     }, void 0, false, {
                                                         fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                                        lineNumber: 242,
+                                                        lineNumber: 277,
                                                         columnNumber: 27
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                                    lineNumber: 241,
+                                                    lineNumber: 276,
                                                     columnNumber: 25
                                                 }, this)
                                             ]
                                         }, lead.id, true, {
                                             fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                            lineNumber: 210,
+                                            lineNumber: 245,
                                             columnNumber: 23
                                         }, this))
                                 }, void 0, false, {
                                     fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                                    lineNumber: 198,
+                                    lineNumber: 233,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                            lineNumber: 169,
+                            lineNumber: 204,
                             columnNumber: 15
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                        lineNumber: 168,
+                        lineNumber: 203,
+                        columnNumber: 13
+                    }, this),
+                    selectedStatus && hasMore && !leadsLoading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        ref: loadMoreRef,
+                        className: "h-8 flex items-center justify-center py-4 text-slate-500 text-sm",
+                        children: loadingMore ? "Loading more…" : "\u00a0"
+                    }, void 0, false, {
+                        fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
+                        lineNumber: 292,
                         columnNumber: 13
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                lineNumber: 152,
+                lineNumber: 187,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -542,17 +604,17 @@ function WorkspaceHome() {
                 children: "Independent routing and layout for the workspace app."
             }, void 0, false, {
                 fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-                lineNumber: 259,
+                lineNumber: 302,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/apps/workspace/src/app/(dashboard)/page.tsx",
-        lineNumber: 108,
+        lineNumber: 146,
         columnNumber: 5
     }, this);
 }
-_s(WorkspaceHome, "a1knGANnEXc+gzqaLfYooYYLIC0=", false, function() {
+_s(WorkspaceHome, "oR9uoCXDal68F4JW6EDzc/Ch6Kk=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$apps$2f$shared$2f$src$2f$hooks$2f$useAuth$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAuth"]
     ];

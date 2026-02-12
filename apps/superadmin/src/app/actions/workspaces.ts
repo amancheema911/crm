@@ -9,6 +9,7 @@ import {
   sendWorkspaceEnabledEmail,
 } from "@/lib/email";
 import type { Workspace } from "@/lib/types";
+import { getWorkspaceUrl } from "@/lib/env";
 
 const SUPERADMIN_ONLY = "Only superadmin can perform this action.";
 
@@ -155,16 +156,17 @@ export async function deleteWorkspace(workspaceId: number): Promise<void> {
   if (error) throw new Error(error.message);
 }
 
-const WORKSPACE_APP_URL =
-  process.env.NEXT_PUBLIC_WORKSPACE_APP_URL ?? "http://localhost:3000";
-
 /** Get magic link to open workspace app as superadmin in the given workspace (superadmin only). */
 export async function getWorkspaceLoginLink(
   workspaceId: number
 ): Promise<{ url: string }> {
+  const workspaceUrl = getWorkspaceUrl();
+  if (!workspaceUrl) {
+    throw new Error("Missing NEXT_PUBLIC_WORKSPACE_APP_URL in environment");
+  }
   const user = await requireSuperadmin();
   const admin = createSupabaseAdminClient();
-  const redirectTo = `${WORKSPACE_APP_URL.replace(/\/$/, "")}/auth/enter?workspace_id=${workspaceId}`;
+  const redirectTo = `${workspaceUrl}/auth/enter?workspace_id=${workspaceId}`;
   const { data, error } = await admin.auth.admin.generateLink({
     type: "magiclink",
     email: user.email,

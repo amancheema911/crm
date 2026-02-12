@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@crm/shared/hooks";
 import { useWorkspaceName } from "@/hooks/useWorkspaceName";
+import { getSuperadminUrl } from "@/lib/env";
 
 interface TopbarProps {
   toggleSidebar: () => void;
@@ -17,10 +18,7 @@ export function Topbar({ toggleSidebar, isSidebarOpen }: TopbarProps) {
   const router = useRouter();
   const { user, role, signOut } = useAuth();
   const workspaceName = useWorkspaceName();
-  const superadminUrl =
-    typeof process.env.NEXT_PUBLIC_SUPERADMIN_APP_URL === "string"
-      ? process.env.NEXT_PUBLIC_SUPERADMIN_APP_URL.replace(/\/$/, "")
-      : "http://localhost:3001";
+  const superadminUrl = getSuperadminUrl();
 
   const handleSignOut = async () => {
     await signOut();
@@ -187,15 +185,20 @@ export function Topbar({ toggleSidebar, isSidebarOpen }: TopbarProps) {
                 >
                   Settings
                 </Link>
-                {role === "superadmin" && (
-                  <a
-                    href={superadminUrl}
-                    className="block px-4 py-2 text-sm text-indigo-600 hover:bg-indigo-50"
-                    onClick={() => setIsProfileMenuOpen(false)}
-                  >
-                    Back to Superadmin
-                  </a>
-                )}
+                {role === "superadmin" &&
+                  (superadminUrl ? (
+                    <a
+                      href={superadminUrl}
+                      className="block px-4 py-2 text-sm text-indigo-600 hover:bg-indigo-50"
+                      onClick={() => setIsProfileMenuOpen(false)}
+                    >
+                      Back to Superadmin
+                    </a>
+                  ) : (
+                    <p className="block px-4 py-2 text-xs font-medium text-red-600 bg-red-50">
+                      Missing NEXT_PUBLIC_SUPERADMIN_APP_URL
+                    </p>
+                  ))}
                 <div className="border-t border-gray-100 my-1" />
                 <button
                   type="button"
