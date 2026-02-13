@@ -49,8 +49,7 @@ export function WorkspaceManager({ initialWorkspaces }: WorkspaceManagerProps) {
     setOpenId(w.id);
     try {
       const { url } = await getWorkspaceLoginLink(w.id);
-      // window.location.href = url;
-      console.log(url);
+      window.location.href = url;
     } catch (err) {
       alert(err instanceof Error ? err.message : "Failed to open workspace");
       setOpenId(null);
