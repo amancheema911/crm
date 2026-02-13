@@ -162,7 +162,9 @@ export async function getWorkspaceLoginLink(
 ): Promise<{ url: string }> {
   const workspaceUrl = getWorkspaceUrl();
   if (!workspaceUrl) {
-    throw new Error("Missing NEXT_PUBLIC_WORKSPACE_APP_URL in environment");
+    throw new Error(
+      "Missing WORKSPACE_APP_URL or NEXT_PUBLIC_WORKSPACE_APP_URL in environment"
+    );
   }
   const user = await requireSuperadmin();
   const admin = createSupabaseAdminClient();
